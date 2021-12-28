@@ -40,7 +40,8 @@ def build_knapsack_bqm(costs, weights, weight_capacity):
 
     # Initialize BQM - use large-capacity BQM so that the problem can be
     # scaled by the user.
-    bqm = dimod.AdjVectorBQM(dimod.Vartype.BINARY)
+    #bqm = dimod.AdjVectorBQM(dimod.Vartype.BINARY)
+    bqm = dimod.BinaryQuadraticModel(Vartype.BINARY)
 
     # Lagrangian multiplier
     # First guess as suggested in Lucas's paper
@@ -132,7 +133,7 @@ def solve_knapsack(costs, weights, weight_capacity, sampler=None):
 
 if __name__ == '__main__':
 
-    data_file_name = sys.argv[1] if len(sys.argv) > 1 else "data/large.csv"
+    data_file_name = sys.argv[1] if len(sys.argv) > 1 else "knapsack-master/data/large.csv"
     weight_capacity = float(sys.argv[2]) if len(sys.argv) > 2 else 70
 
     # parse input data
