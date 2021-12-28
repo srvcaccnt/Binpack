@@ -42,7 +42,7 @@ from dwave.system import LeapHybridCQMSampler
 sampler = LeapHybridCQMSampler() 
 
 sampleset = sampler.sample_cqm(cqm,
-   time_limit=180, label="SDK Examples - Bin Packing")  
+   time_limit=10, label="SDK Examples - Bin Packing")  
 feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)  
 if len(feasible_sampleset):      
     best = feasible_sampleset.first
@@ -56,7 +56,6 @@ print("{} bins are used.".format(len(selected_bins)))
 f.write("{} bins are used.|".format(len(selected_bins)))
 def get_indices(name):
     return [int(digs) for digs in name.split('_') if digs.isdigit()]
-
 
 
 for bin in selected_bins:                        
