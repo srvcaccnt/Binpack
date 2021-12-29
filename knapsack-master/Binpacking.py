@@ -14,10 +14,8 @@ f.write("Problem: pack a total weight of {} into bins of capacity {} and total n
 
 from dimod import ConstrainedQuadraticModel
 cqm = ConstrainedQuadraticModel()
-
 from dimod import Binary
 bin_used = [Binary(f'bin_used_{j}') for j in range(num_items)]
-
 cqm.set_objective(sum(bin_used))
 
 bin_used[0]
