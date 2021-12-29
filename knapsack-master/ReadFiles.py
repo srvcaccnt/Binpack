@@ -14,9 +14,12 @@ def computeBinPack(inputfileName,weights, bin_capacity):
     f.write(str(bin_capacity))
     f.write("|")
     f.write(str(weights))
-  
+    f.write("|")
     num_items=len(weights)
 
+    f.write(str(num_items))
+    f.write("|")
+   
     from dimod import ConstrainedQuadraticModel
     cqm = ConstrainedQuadraticModel()
     from dimod import Binary
@@ -40,17 +43,17 @@ def computeBinPack(inputfileName,weights, bin_capacity):
     sampler = LeapHybridCQMSampler() 
 
     sampleset = sampler.sample_cqm(cqm,
-    time_limit=10, label="SDK Examples - Bin Packing")  
+    time_limit=5, label="SDK Examples - Bin Packing")  
     feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)  
     if len(feasible_sampleset):      
         best = feasible_sampleset.first
-        print("{} feasible solutions of {}.".format(
-        len(feasible_sampleset), len(sampleset)))
+        #print("{} feasible solutions of {}.".format(
+        #len(feasible_sampleset), len(sampleset)))
         f.write("{} feasible solutions of {}.|".format(
         len(feasible_sampleset), len(sampleset)))
 
     selected_bins = [key for key, val in best.sample.items() if 'bin_used' in key and val]   
-    print("{} bins are used.".format(len(selected_bins)))
+    #print("{} bins are used.".format(len(selected_bins)))
     f.write("{} bins are used.|".format(len(selected_bins)))
 
     for bin in selected_bins:                        
@@ -60,7 +63,7 @@ def computeBinPack(inputfileName,weights, bin_capacity):
             and val]
         b = get_indices(in_bin[0])[1]
         w = [weights[get_indices(item)[0]] for item in in_bin]
-        print("Bin {} has weights {} for a total of {}.".format(b, w, sum(w)))
+        #print("Bin {} has weights {} for a total of {}.".format(b, w, sum(w)))
         f.write("Bin {} has weights {} for a total of {}.".format(b, w, sum(w)))
 
     f.write("\n")    
