@@ -59,13 +59,19 @@ def computeBinPack(inputfileName,weights, bin_capacity):
     f.write(gettime())
     f.write("|")
     feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)  
+    
     if len(feasible_sampleset):      
-        best = feasible_sampleset.first
-        #print("{} feasible solutions of {}.".format(
-        #len(feasible_sampleset), len(sampleset)))
         f.write("{} of {}|".format(
-        len(feasible_sampleset), len(sampleset)))
-                
+            len(feasible_sampleset), len(sampleset)))
+        f.write("Start Test ".format(len(selected_bins)))
+        iter=0
+        for trial in feasible_sampleset:
+            iter=iter+1
+            sel_bins = [key for key, val in trial.sample.items() if 'bin_used' in key and val]
+            f.write("{} bins in {}|".format(len(sel_bins),str(iter)))
+        f.write("End Test|".format(len(sel_bins)))
+        best = feasible_sampleset.first
+
     selected_bins = [key for key, val in best.sample.items() if 'bin_used' in key and val]   
     #print("{} bins are used.".format(len(selected_bins)))
     f.write("{} bins|".format(len(selected_bins)))
