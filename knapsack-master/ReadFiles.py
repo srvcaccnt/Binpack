@@ -28,8 +28,6 @@ def computeBinPack(inputfileName,weights, bin_capacity):
     f.write("|")
     f.write(str(sum(weights)))
     f.write("|")
-    f.write(str(timelimit))
-    f.write("|")
     
     from dimod import ConstrainedQuadraticModel
     cqm = ConstrainedQuadraticModel()
@@ -52,8 +50,16 @@ def computeBinPack(inputfileName,weights, bin_capacity):
 
     from dwave.system import LeapHybridCQMSampler
     sampler = LeapHybridCQMSampler() 
+    
+    timelimit=sampler.min_time_limit(cqm)
+
+    f.write(str(timelimit))
+    f.write("|")
+    
+    
     f.write(gettime())
     f.write("|")
+    
     sampleset = sampler.sample_cqm(cqm,
     time_limit=timelimit, label="SDK Examples - Bin Packing")  
     f.write(gettime())
