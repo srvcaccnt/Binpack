@@ -90,8 +90,165 @@ def computeBinPack(inputfileName,weights, bin_capacity):
     f.write("\n")    
     f.close()
 
+def nextfit(inputfileName,weights, bin_capacity):
+    weight=weights 
+    c = bin_capacity
+    timelimit=5
+    f=open("knapsack-master/binpackdata/results/nextfit.txt","a")
+    f.write(str(inputfileName))
+    f.write("|")
+    f.write(str(bin_capacity))
+    f.write("|")
+    f.write(str(weights))
+    f.write("|")
+    num_items=len(weights)
 
-your_path = 'knapsack-master/binpackdata/test'
+    f.write(str(num_items))
+    f.write("|")
+    f.write(str(sum(weights)))
+    f.write("|")
+    f.write(str(timelimit))
+    f.write("|")
+    f.write(gettime())
+    f.write("|")
+
+    res = 0
+    rem = c
+    for _ in range(len(weight)):
+        if rem >= weight[_]:
+            rem = rem - weight[_]
+        else:
+            res += 1
+            rem = c - weight[_]
+    f.write(gettime())
+    f.write("|")
+    f.write("|")
+    f.write("{} bins|".format(res))
+    f.write("|")
+    f.write("\n")    
+    f.close()
+    return res
+    
+
+def firstFit(inputfileName,weights, bin_capacity):
+    weight=weights
+    c=bin_capacity
+    timelimit=5
+    f=open("knapsack-master/binpackdata/results/firstfit.txt","a")
+    f.write(str(inputfileName))
+    f.write("|")
+    f.write(str(bin_capacity))
+    f.write("|")
+    f.write(str(weights))
+    f.write("|")
+    num_items=len(weights)
+
+    f.write(str(num_items))
+    f.write("|")
+    f.write(str(sum(weights)))
+    f.write("|")
+    f.write(str(timelimit))
+    f.write("|")
+    f.write(gettime())
+    f.write("|")
+    # Initialize result (Count of bins)
+    res = 0
+    n = len(weight) 
+    # Create an array to store remaining space in bins
+    # there can be at most n bins
+    bin_rem = [0]*n
+     
+    # Place items one by one
+    for i in range(n):
+       
+        # Find the first bin that can accommodate
+        # weight[i]
+        j = 0
+        while( j < res):
+            if (bin_rem[j] >= weight[i]):
+                bin_rem[j] = bin_rem[j] - weight[i]
+                break
+            j+=1
+             
+        # If no bin could accommodate weight[i]
+        if (j == res):
+            bin_rem[res] = c - weight[i]
+            res= res+1
+    f.write(gettime())
+    f.write("|")
+    f.write("|")
+    f.write("{} bins|".format(res))
+    f.write("|")
+    f.write("\n")    
+    f.close()
+    return res
+
+def bestFit(inputfileName,weights, bin_capacity):
+    weight=weights
+    c=bin_capacity
+    timelimit=5
+    f=open("knapsack-master/binpackdata/results/bestfit.txt","a")
+    f.write(str(inputfileName))
+    f.write("|")
+    f.write(str(bin_capacity))
+    f.write("|")
+    f.write(str(weights))
+    f.write("|")
+    num_items=len(weights)
+
+    f.write(str(num_items))
+    f.write("|")
+    f.write(str(sum(weights)))
+    f.write("|")
+    f.write(str(timelimit))
+    f.write("|")
+    f.write(gettime())
+    f.write("|")
+    # Initialize result (Count of bins)
+    res = 0;
+    n = len(weight)
+    # Create an array to store
+    # remaining space in bins
+    # there can be at most n bins
+    bin_rem = [0]*n;
+ 
+    # Place items one by one
+    for i in range(n):
+         
+        # Find the first bin that
+        # can accommodate
+        # weight[i]
+        j = 0;
+         
+        # Initialize minimum space
+        # left and index
+        # of best bin
+        min = c + 1;
+        bi = 0;
+ 
+        for j in range(res):
+            if (bin_rem[j] >= weight[i] and bin_rem[j] -
+                                       weight[i] < min):
+                bi = j;
+                min = bin_rem[j] - weight[i];
+             
+        # If no bin could accommodate weight[i],
+        # create a new bin
+        if (min == c + 1):
+            bin_rem[res] = c - weight[i];
+            res += 1;
+        else: # Assign the item to best bin
+            bin_rem[bi] -= weight[i];
+    f.write(gettime())
+    f.write("|")
+    f.write("|")
+    f.write("{} bins|".format(res))
+    f.write("|")
+    f.write("\n")    
+    f.close()
+    return res;
+
+your_path = 'knapsack-master/binpackdata/finalInputFiles'
 files = os.listdir(your_path)
 for file in files:
     if os.path.isfile(os.path.join(your_path, file)):
@@ -116,8 +273,10 @@ for file in files:
         else:
             capac=100
         print("{}|{}|{}|{}".format(file,file[3],capac,len(line_list)))
-        computeBinPack(file,line_list,capac)
-        
-
+        #uncomment the below line for the Quantum version of the algorithm
+        #computeBinPack(file,line_list,capac)
+        print("Number of bins required in Next Fit :",nextfit(file,line_list,capac))
+        print("Number of bins required in First Fit : ",firstFit(file,line_list,capac))
+        print("Number of bins required in Best Fit : ",bestFit(file,line_list,capac))
 
 
