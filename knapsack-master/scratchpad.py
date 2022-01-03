@@ -94,7 +94,7 @@ def nextfit(inputfileName,weights, bin_capacity):
     weight=weights 
     c = bin_capacity
     timelimit=5
-    f=open("knapsack-master/binpackdata/results/nextfit1.txt","a")
+    f=open("knapsack-master/binpackdata/results/nextfit_n2_n4.txt","a")
     f.write(str(inputfileName))
     f.write("|")
     f.write(str(bin_capacity))
@@ -134,7 +134,7 @@ def firstFit(inputfileName,weights, bin_capacity):
     weight=weights
     c=bin_capacity
     timelimit=5
-    f=open("knapsack-master/binpackdata/results/firstfit.txt","a")
+    f=open("knapsack-master/binpackdata/results/firstfit_n2_n4.txt","a")
     f.write(str(inputfileName))
     f.write("|")
     f.write(str(bin_capacity))
@@ -187,7 +187,7 @@ def bestFit(inputfileName,weights, bin_capacity):
     weight=weights
     c=bin_capacity
     timelimit=5
-    f=open("knapsack-master/binpackdata/results/bestfit.txt","a")
+    f=open("knapsack-master/binpackdata/results/bestfit_n2_n4.txt","a")
     f.write(str(inputfileName))
     f.write("|")
     f.write(str(bin_capacity))
@@ -277,7 +277,7 @@ for file in files:
         #uncomment the below line for the Quantum version of the algorithm
         #computeBinPack(file,line_list,capac)
         print("Number of bins required in Next Fit :",nextfit(file,line_list,capac))
-        #print("Number of bins required in First Fit : ",firstFit(file,line_list,capac))
-        #print("Number of bins required in Best Fit : ",bestFit(file,line_list,capac))
+        print("Number of bins required in First Fit : ",firstFit(file,line_list,capac))
+        print("Number of bins required in Best Fit : ",bestFit(file,line_list,capac))
 
 
